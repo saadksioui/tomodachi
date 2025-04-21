@@ -1,11 +1,6 @@
+import { AnimeList } from "@/types/type";
 import mongoose from "mongoose";
 
-interface AnimeList {
-  userId: mongoose.Schema.Types.ObjectId,
-  animeId: string,
-  title: string,
-  status: string
-}
 
 const AnimeListSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

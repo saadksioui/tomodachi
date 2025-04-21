@@ -1,11 +1,6 @@
+import { MangaList } from "@/types/type";
 import mongoose from "mongoose";
 
-interface MangaList {
-  userId: mongoose.Schema.Types.ObjectId,
-  mangaId: string,
-  title: string,
-  status: string
-}
 
 const MangaListSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

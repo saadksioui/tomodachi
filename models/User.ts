@@ -1,10 +1,6 @@
+import { User } from "@/types/type";
 import mongoose from "mongoose";
 
-interface User {
-  email: string,
-  password: string,
-  username: string
-}
 
 const UserSchema = new mongoose.Schema({
   email: {type: String, required: true, unique: true},
