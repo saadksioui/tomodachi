@@ -20,14 +20,7 @@ export const POST = async (request: Request) => {
       return NextResponse.json({error: "Invalid password"}, {status: 401});
     }
 
-    return NextResponse.json({message: "Login successful", user: {
-      success: true,
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      profilePic: user.profile_picture,
-      token: generateToken(user._id.toString()),
-    }}, {status: 200});
+    return NextResponse.json({message: "Login successful", success: true, user, token: generateToken(user._id.toString())}, {status: 200});
 
   } catch (error) {
     console.log(error);

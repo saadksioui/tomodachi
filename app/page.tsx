@@ -1,8 +1,9 @@
+import Link from "next/link";
 
 const Home = () => {
   return (
     <div>
-      Home
+      <Link href={"/auth"}>Join Us</Link>
     </div>
   )
 };

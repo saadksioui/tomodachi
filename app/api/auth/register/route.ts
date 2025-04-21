@@ -27,14 +27,7 @@ export const POST = async (request: Request) => {
     });
 
     return NextResponse.json(
-      { message: "User created successfully",  user: {
-        success: true,
-        _id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-        profilePic: newUser.profile_picture,
-        token: generateToken(newUser._id.toString()),
-      } },
+      { message: "User created successfully",  success: true, newUser, token: generateToken(newUser._id.toString()) },
       { status: 201 }
     );
   } catch (error) {
