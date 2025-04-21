@@ -1,13 +1,32 @@
 import { User } from "@/types/type";
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 
 
 const UserSchema = new mongoose.Schema({
-  email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  username: { type: String, required: true }
+  username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  profile_picture: {
+    type: String,
+    default: "userpfp.png"
+  },
+  bio: {
+    type: String,
+    default: 'This user has no bio yet.'
+  }
 }, {
   timestamps: true
 })
 
-export default mongoose.model<User>("User", UserSchema)
+export default (mongoose.models.User as Model<User & Document>)
+  || mongoose.model<User & Document>("User", UserSchema);

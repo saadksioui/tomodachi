@@ -1,9 +1,10 @@
 import mongoose from "mongoose"
 
 export interface User {
+  username: string,
   email: string,
   password: string,
-  username: string
+  profile_picture: string
 }
 
 export interface MangaList {

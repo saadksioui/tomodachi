@@ -3,9 +3,19 @@ import mongoose from "mongoose";
 
 
 const MangaListSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  mangaId: { type: String, required: true },
-  title: { type: String, required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  mangaName: {
+    type: String,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
   status: {
     type: String,
     enum: ['READING', 'COMPLETED', 'WANT_TO_READ'],
