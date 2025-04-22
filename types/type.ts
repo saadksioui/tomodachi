@@ -4,7 +4,8 @@ export interface User {
   username: string,
   email: string,
   password: string,
-  profile_picture: string
+  profile_picture: string,
+  bio: string
 }
 
 export interface MangaList {
