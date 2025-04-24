@@ -1,13 +1,25 @@
 import connection from "@/lib/db";
 import User from "@/models/User";
-import generateToken from "@/utils/generateToken";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
-  try {
-    const { username, email, password } = await request.json();
+  const { username, email, password } = await request.json();
 
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  if (!isValidEmail(email)) {
+    return NextResponse.json({ message: "Invalid email format" }, { status: 400 });
+  }
+
+  if (password.length < 6) {
+    return NextResponse.json({ message: "Password must be at least 6 character long" }, { status: 400 });
+  }
+
+  try {
     await connection();
 
     const user = await User.findOne({ email });
@@ -27,7 +39,7 @@ export const POST = async (request: Request) => {
     });
 
     return NextResponse.json(
-      { message: "User created successfully",  success: true, newUser, token: generateToken(newUser._id.toString()) },
+      { message: "User created successfully", success: true, newUser },
       { status: 201 }
     );
   } catch (error) {

@@ -13,7 +13,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import Login from "./_components/Login";
+import Login from "../sign-in/_components/Login";
 import Register from "./_components/Register";
 
 const Auth = () => {
