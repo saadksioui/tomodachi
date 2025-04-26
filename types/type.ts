@@ -5,6 +5,7 @@ export interface User {
   email: string,
   password: string,
   profile_picture: string,
+  cover_photo: string,
   bio: string
 }
 

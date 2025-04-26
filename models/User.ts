@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "userpfp.png"
   },
+  cover_photo: {
+    type: String,
+  },
   bio: {
     type: String,
     default: 'This user has no bio yet.'

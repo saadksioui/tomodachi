@@ -6,24 +6,11 @@ import { NextResponse } from "next/server";
 export const POST = async (request: Request) => {
   const { username, email, password } = await request.json();
 
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  if (!isValidEmail(email)) {
-    return NextResponse.json({ message: "Invalid email format" }, { status: 400 });
-  }
-
-  if (password.length < 6) {
-    return NextResponse.json({ message: "Password must be at least 6 character long" }, { status: 400 });
-  }
-
   try {
     await connection();
 
-    const user = await User.findOne({ email });
-    if (user) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return NextResponse.json(
         { error: "User already exists" },
         { status: 400 }
@@ -38,8 +25,16 @@ export const POST = async (request: Request) => {
       password: hashedPassword,
     });
 
+
     return NextResponse.json(
-      { message: "User created successfully", success: true, newUser },
+      { message: "User created successfully", success: true, user: {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        profile_picture: newUser.profile_picture,
+        cover_photo: newUser.cover_photo,
+        bio: newUser.bio
+      } },
       { status: 201 }
     );
   } catch (error) {

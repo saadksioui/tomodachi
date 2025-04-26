@@ -1,15 +1,26 @@
-"use client";
+import { redirect } from "next/navigation";
+import { verifySession } from "../_lib/session";
+import { getUser } from "../_data/user";
+import LogoutBtn from "../_components/LogoutBtn";
+import Image from "next/image";
 
-import { useUserStore } from "@/stores/useUserStore";
 
-const page = () => {
-  const user = useUserStore((state) => state.user);
+const Profile = async () => {
+  const session = await verifySession()
+
+  if (!session) {
+    redirect('/sign-in')
+  }
+
+  const user = await getUser()
 
   return (
     <div>
-      {user ? <p>Hello, {user.username}</p> : <p>Loading...</p>}
+      <p>Hello, {user.username}</p>
+      <Image src={`/${user.profile_picture}`} alt={user.username} width={100} height={100}/>
+      <LogoutBtn/>
     </div>
   );
 };
 
-export default page
+export default Profile;
