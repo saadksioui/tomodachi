@@ -3,6 +3,8 @@ import { verifySession } from "../_lib/session";
 import { getUser } from "../_data/user";
 import LogoutBtn from "../_components/LogoutBtn";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 
 const Profile = async () => {
@@ -19,6 +21,9 @@ const Profile = async () => {
       <p>Hello, {user.username}</p>
       <Image src={`/${user.profile_picture}`} alt={user.username} width={100} height={100}/>
       <LogoutBtn/>
+      <Link href="/anime">
+      <Button>Anime</Button>
+      </Link>
     </div>
   );
 };
