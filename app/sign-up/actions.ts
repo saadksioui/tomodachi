@@ -31,5 +31,5 @@ export async function signup(state: FormState, formData: FormData) {
 
   await createSession(res.data.user._id)
 
-  redirect('/profile')
+  redirect('/user/profile')
 }

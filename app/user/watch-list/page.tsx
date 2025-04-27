@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
-import { getAnimeById, updateAnimeStatus } from "./actions";
-import { Menu } from "lucide-react";
+import { deleteAnime, getAnimeById, updateAnimeStatus } from "./actions";
+import { Menu, Trash } from "lucide-react";
 
 const status = [
   {
@@ -47,6 +47,18 @@ const WatchList = () => {
     }
   };
 
+  const handleDelete = async (animeItemId: string) => {
+    try {
+      await deleteAnime({ id: animeItemId });
+
+      setAnime((prevAnime: any) => prevAnime.filter((item: any) => item._id !== animeItemId));
+    } catch (error) {
+      console.error("Error deleting anime:", error);
+    }
+  }
+
+
+
   return (
     <div>
       <h1>Watch List</h1>
@@ -71,6 +83,7 @@ const WatchList = () => {
                   ))}
                 </ul>
               </div>
+              <Trash onClick={() => handleDelete(animeItem._id )}/>
             </li>
           ))}
         </ul>

@@ -24,6 +24,9 @@ const Profile = async () => {
       <Link href="/anime">
         <Button>Anime</Button>
       </Link>
+      <Link href="/user/watch-list">
+        <Button>Watch List</Button>
+      </Link>
     </div>
   );
 };

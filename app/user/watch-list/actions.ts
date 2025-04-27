@@ -23,3 +23,16 @@ export const updateAnimeStatus = async ({ id, status }: { id: string, status: st
     return [];
   }
 }
+
+export const deleteAnime = async ({ id }: { id: string }) => {
+  try {
+    const res = await axios.delete(`http://localhost:3000/api/anime/${id}`)
+
+    if (res.status === 200) {
+      return res.data.message
+    }
+  } catch (error) {
+    console.error("Error deleting anime:", error);
+    return null;
+  }
+};
