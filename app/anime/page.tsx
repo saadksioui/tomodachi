@@ -1,8 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { getAnime } from "@/lib/animedb";
 import { useEffect, useState } from "react";
-import { addAnime } from "./actions";
+import { addAnime, getAnime } from "./actions";
 
 const Anime = () => {
   const [anime, setAnime] = useState<any>(null);
