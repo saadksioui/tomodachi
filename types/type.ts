@@ -8,17 +8,3 @@ export interface User {
   cover_photo: string,
   bio: string
 }
-
-export interface MangaList {
-  userId: mongoose.Schema.Types.ObjectId,
-  mangaId: string,
-  title: string,
-  status: string
-}
-
-export interface AnimeList {
-  userId: mongoose.Schema.Types.ObjectId,
-  animeId: string,
-  title: string,
-  status: string
-}

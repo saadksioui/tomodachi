@@ -1,14 +1,23 @@
-import { MangaList } from "@/types/type";
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
+export interface IMangaList extends Document {
+  userId: mongoose.Types.ObjectId;
+  mangaId: string;
+  title: string;
+  image?: string;
+  status: 'Reading' | 'Completed' | 'Want to Read';
+  addedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const MangaListSchema = new mongoose.Schema({
+const MangaListSchema = new Schema<IMangaList>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  mangaName: {
+  mangaId: {
     type: String,
     required: true
   },
@@ -16,13 +25,20 @@ const MangaListSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   status: {
     type: String,
-    enum: ['READING', 'COMPLETED', 'WANT_TO_READ'],
-    required: true
+    enum: ['Reading', 'Completed', 'Want to Read'],
+    default: 'Reading'
   },
+  addedAt: {
+    type: Date,
+    default: Date.now
+  }
 }, {
   timestamps: true
-})
+});
 
-export default mongoose.model<MangaList>("MangaList", MangaListSchema)
+export default mongoose.models.MangaList || mongoose.model<IMangaList>("MangaList", MangaListSchema);

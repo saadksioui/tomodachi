@@ -1,14 +1,23 @@
-import { AnimeList } from "@/types/type";
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
+export interface IAnimeList extends Document {
+  userId: mongoose.Types.ObjectId;
+  animeId: string;
+  title: string;
+  image?: string;
+  status: 'Watching' | 'Completed' | 'Want to Watch';
+  addedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const AnimeListSchema = new mongoose.Schema({
+const AnimeListSchema = new Schema<IAnimeList>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  animeName: {
+  animeId: {
     type: String,
     required: true
   },
@@ -16,13 +25,20 @@ const AnimeListSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   status: {
     type: String,
-    enum: ['WATCHING', 'COMPLETED', 'WANT_TO_WATCH'],
-    required: true
+    enum: ['Watching', 'Completed', 'Want to Watch'],
+    default: 'Watching'
   },
+  addedAt: {
+    type: Date,
+    default: Date.now
+  }
 }, {
   timestamps: true
-})
+});
 
-export default mongoose.model<AnimeList>("AnimeList", AnimeListSchema)
+export default mongoose.models.AnimeList || mongoose.model<IAnimeList>("AnimeList", AnimeListSchema);
