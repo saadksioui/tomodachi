@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { getAnimeById } from "./actions";
+import { getAnimeById, updateAnimeStatus } from "./actions";
 import { Menu } from "lucide-react";
 
 const status = [
@@ -22,9 +22,7 @@ const WatchList = () => {
   const [anime, setAnime] = useState<any>(null);
   const [showStatus, setShowStatus] = useState<boolean>(false);
 
-
   useEffect(() => {
-
     const fetchAnime = async () => {
       const animeData = await getAnimeById();
       setAnime(animeData);
@@ -32,24 +30,45 @@ const WatchList = () => {
 
     fetchAnime();
   }, []);
+
+  const handleStatusChange = async (animeItemId: string, newStatus: string) => {
+    try {
+      await updateAnimeStatus({ id: animeItemId, status: newStatus });
+
+      setAnime((prevAnime: any) =>
+        prevAnime.map((item: any) =>
+          item._id === animeItemId ? { ...item, status: newStatus } : item
+        )
+      );
+
+      setShowStatus(false);
+    } catch (error) {
+      console.error("Error updating anime status:", error);
+    }
+  };
+
   return (
     <div>
       <h1>Watch List</h1>
       {anime ? (
         <ul>
-          {anime.map((animeItem: any, index: number) => (
-            <li key={index}>
+          {anime.map((animeItem: any) => (
+            <li key={animeItem._id}>
               {animeItem.title}
               <img src={animeItem.image} alt={animeItem.title} />
               <span>{animeItem.status}</span>
               <div>
-                <Menu onClick={() => setShowStatus(!showStatus)}/>
+                <Menu onClick={() => setShowStatus(!showStatus)} />
                 <ul className={`${showStatus ? "block" : "hidden"}`}>
-                  {
-                    status.map((statusItem, index) => (
-                      <li key={index} className={`${statusItem.value === animeItem.status ? "text-red-500" : ""} cursor-pointer`}>{statusItem.label}</li>
-                    ))
-                  }
+                  {status.map((statusItem, index) => (
+                    <li
+                      key={index}
+                      className={`${statusItem.value === animeItem.status ? "text-red-500" : ""} cursor-pointer`}
+                      onClick={() => handleStatusChange(animeItem._id, statusItem.value)}
+                    >
+                      {statusItem.label}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </li>
@@ -59,7 +78,7 @@ const WatchList = () => {
         <p>Loading...</p>
       )}
     </div>
-  )
+  );
 };
 
-export default WatchList
+export default WatchList;
