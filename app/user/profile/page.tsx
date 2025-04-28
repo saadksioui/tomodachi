@@ -5,6 +5,7 @@ import LogoutBtn from "../../_components/LogoutBtn";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import ProfileForm from "./_components/ProfileForm";
 
 
 const Profile = async () => {
@@ -33,6 +34,8 @@ const Profile = async () => {
       <Link href="/user/read-list">
         <Button>Read List</Button>
       </Link>
+      <br />
+      <ProfileForm currentUser={user} />
     </div>
   );
 };

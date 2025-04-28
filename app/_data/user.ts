@@ -5,8 +5,7 @@ export const getUser = async () => {
   const session = await verifySession();
   if (!session) return null
 
-  const baseUrl = process.env.NEXT_URL || 'http://localhost:3000';
-  const res = await axios.get(`${baseUrl}/api/auth/user/${session.userId}`);
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/user/${session.userId}`);
   const user = res.data;
 
   return user
