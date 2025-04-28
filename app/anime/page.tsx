@@ -7,7 +7,6 @@ const Anime = () => {
   const [anime, setAnime] = useState<any>(null);
 
   useEffect(() => {
-
     const fetchAnime = async () => {
       const animeData = await getAnime();
       setAnime(animeData);

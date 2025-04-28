@@ -8,23 +8,24 @@ interface Anime {
 
 export const getAnime = async () => {
   try {
-    const res = await axios.get("https://animedb1.p.rapidapi.com/top/anime", {
-      headers: {
-        'x-rapidapi-key': process.env.RAPIDAPI_KEY!,
-        'x-rapidapi-host': 'animedb1.p.rapidapi.com'
-      }
-    });
+    const res = await axios.get("/api/anime");
 
-    return res.data;
-  } catch (error) {
-    console.error("Error fetching anime:", error);
+    if (res.status === 200) {
+      return res.data;
+    } else {
+      console.error("Error fetching anime: Invalid response status", res.status);
+      return null;
+    }
+  } catch (error: any) {
+    console.error("Error fetching anime:", error.response?.data || error.message);
     return [];
   }
 };
 
+
 export const addAnime = async ({ animeId, title, image }: Anime,) => {
   try {
-    const res = await axios.post("http://localhost:3000/api/anime/add", { animeId, title, image });
+    const res = await axios.post("/api/anime/add", { animeId, title, image });
 
     if (res.data.success) {
       return res.data.message

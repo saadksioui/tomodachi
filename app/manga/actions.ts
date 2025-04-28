@@ -8,12 +8,7 @@ interface Manga {
 
 export const getManga = async () => {
   try {
-    const res = await axios.get("https://animedb1.p.rapidapi.com/top/manga", {
-      headers: {
-        'x-rapidapi-key': process.env.RAPIDAPI_KEY!,
-        'x-rapidapi-host': 'animedb1.p.rapidapi.com'
-      }
-    });
+    const res = await axios.get("/api/manga");
 
     if (res.status === 200) {
       return res.data;
@@ -22,8 +17,8 @@ export const getManga = async () => {
       return null;
     }
   } catch (error: any) {
-    console.error("Error fetching manga:", error.message || error);
-    return null;
+    console.error("Error fetching manga:", error.response?.data || error.message);
+    return [];
   }
 };
 
