@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import axios from "axios"
+import Image from "next/image"
 import { ChangeEvent, useEffect, useState } from "react"
 
 const ProfileForm = ({ currentUser }: any) => {
@@ -70,8 +71,10 @@ const ProfileForm = ({ currentUser }: any) => {
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="grid w-full items-center gap-4">
             {previewImage && (
-              <img
-                src={`/${previewImage}`}
+              <Image
+                src={`${previewImage}`}
+                width={96}
+                height={96}
                 alt="Profile Picture Preview"
                 className="w-24 h-24 rounded-full object-cover mx-auto mb-4"
               />

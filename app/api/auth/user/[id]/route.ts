@@ -1,5 +1,4 @@
-import { IncomingForm } from "formidable";
-import { rename, writeFile } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
 import connection from "@/lib/db";
 import User from "@/models/User";
@@ -7,14 +6,14 @@ import { NextResponse } from "next/server";
 
 export const config = {
   api: {
-    bodyParser: false,
+      bodyParser: false,
   },
 };
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
+  await connection();
   const { id } = params;
 
-  await connection();
 
   const user = await User.findById(id).select('-password');
 
@@ -26,59 +25,42 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return NextResponse.json(user, { status: 200 });
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const { id } = await params;
+export async function PUT(req: Request, { params }: { params: { id: string } } ) {
   await connection();
+  const { id } = params;
 
-  const form = new IncomingForm({
-    keepExtensions: true,
-    uploadDir: './public/uploads',
-    multiples: false,
-  });
+  const formData = await req.formData();
 
-  return new Promise((resolve, reject) => {
-    form.parse(req as any, async (err, fields, files) => {
-      if (err) {
-        console.error('Form parse error:', err);
-        reject(NextResponse.json({ error: "Form parsing error" }, { status: 400 }));
-        return;
-      }
+  const username = formData.get("username") as string;
+  const bio = formData.get("bio") as string;
+  const profile_picture = formData.get("profile_picture") as File | null;
 
-      try {
-        const { username, bio } = fields;
-        const user = await User.findById(id);
+  if (!username || !bio) {
+    return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+  }
 
-        if (!user) {
-          resolve(NextResponse.json({ error: "User not found" }, { status: 404 }));
-          return;
-        }
+  const user = await User.findById(id);
 
-        user.username = username || user.username;
-        user.bio = bio || user.bio;
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 });
+  }
 
-        if (files.profile_picture) {
-          const profile_picture = Array.isArray(files.profile_picture)
-            ? files.profile_picture[0]
-            : files.profile_picture;
+  user.username = username;
+  user.bio = bio;
 
-          const originalFilename = profile_picture.originalFilename || "profile-picture.png";
-          const newFileName = `${Date.now()}-${originalFilename}`;
-          const oldPath = profile_picture.filepath;
-          const newPath = path.join(process.cwd(), "public/uploads", newFileName);
+  if (profile_picture) {
+    const bytes = await profile_picture.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-          await rename(oldPath, newPath);
+    const fileName = Date.now() + "-" + profile_picture.name;
+    const filePath = path.join(process.cwd(), "public", "uploads", fileName);
 
-          user.profile_picture = `/uploads/${newFileName}`;
-        }
+    await writeFile(filePath, buffer); // Save the image
 
-        await user.save();
+    user.profile_picture = `/uploads/${fileName}`;
+  }
+  await user.save();
 
-        resolve(NextResponse.json(user, { status: 200 }));
-      } catch (error) {
-        console.error('Update profile error:', error);
-        reject(NextResponse.json({ error: "Error updating profile" }, { status: 500 }));
-      }
-    });
-  });
+  return NextResponse.json(user, { status: 200 });
 }
 

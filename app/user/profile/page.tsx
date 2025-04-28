@@ -20,7 +20,7 @@ const Profile = async () => {
   return (
     <div>
       <p>Hello, {user.username}</p>
-      <Image src={`/${user.profile_picture}`} alt={user.username} width={100} height={100} />
+      <Image src={`${user.profile_picture}`} alt={user.username} width={100} height={100} />
       <LogoutBtn />
       <Link href="/anime">
         <Button>Anime</Button>
