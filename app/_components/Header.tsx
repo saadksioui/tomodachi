@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@/types/type";
-import { verifySession } from "../_lib/session";
 import { getUser } from "../_data/user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
