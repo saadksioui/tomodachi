@@ -1,5 +1,3 @@
-import mongoose from "mongoose"
-
 export interface User {
   username: string,
   email: string,

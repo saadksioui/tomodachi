@@ -12,7 +12,7 @@ export const config = {
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   await connection();
-  const { id } = params;
+  const { id } = await params;
 
 
   const user = await User.findById(id).select('-password');
