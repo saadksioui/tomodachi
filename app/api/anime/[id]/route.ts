@@ -19,13 +19,17 @@ export async function PUT (request: Request, { params }: { params: { id: string 
 
     await connection();
 
-    const anime = await AnimeList.findById({_id: id});
+    const anime = await AnimeList.findOne({_id: id});
 
     if (!anime) {
       return NextResponse.json({ error: 'Anime not found' }, { status: 404 });
     }
 
     const { status } = await request.json();
+
+    if (status !== "Watching" && status !== "Completed" && status !== "Want to Watch") {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+    }
 
     await AnimeList.updateOne({ _id: id }, { status });
 

@@ -21,14 +21,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${poppins.className} antialiased`}
-      >
-        <Header />
-        <Toaster position="top-center" />
-        {children}
-        <Footer />
+    <html lang="en" className="h-full" suppressHydrationWarning>
+      <body className={`${poppins.className} antialiased flex flex-col h-full`}>
+        <div className="w-full">
+          <Header />
+          <main className="flex-1">
+            <Toaster position="top-center" />
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
