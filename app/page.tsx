@@ -9,7 +9,7 @@ import MangaShelf from "./_components/MangaShelf";
 const Home = () => {
 
   return (
-    <div className="p-4 flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <Hero/>
       <AnimeShelf/>
       <MangaShelf/>
