@@ -4,7 +4,7 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <section className="w-full flex flex-col items-center justify-center gap-6 px-4 py-12 sm:py-20 md:py-24 lg:py-32 xl:py-48 text-center bg-gradient-to-b from-indigo-950 via-blue-900 to-indigo-900">
-      <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+      <h1 className="text-3xl text-white font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
         Track Your Anime & Manga Journey
       </h1>
       <p className="max-w-[700px] text-gray-300 text-base sm:text-lg md:text-xl">

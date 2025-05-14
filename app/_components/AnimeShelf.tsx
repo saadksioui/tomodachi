@@ -26,7 +26,9 @@ const AnimeShelf = () => {
         {anime ? (
           <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-6">
             {anime.map((anime: any) => (
-              <AnimeCard key={anime.mal_id} anime={anime} />
+              <Link href={`/anime/${anime.title}`} key={anime.mal_id}>
+                <AnimeCard anime={anime} />
+              </Link>
             ))}
           </div>
         ) : (

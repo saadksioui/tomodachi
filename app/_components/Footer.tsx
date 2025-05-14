@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="w-[90%] mx-auto py-3">
-      <div className="flex items-center justify-between">
+    <footer className="py-10">
+      <div className="flex items-center justify-between w-[90%] mx-auto ">
         <div className="flex items-end gap-6">
           <Image src="/TomadachiLogo.png" alt="logo" width={100} height={100} />
           <p className="text-sm font-semibold">&copy; {new Date().getFullYear()} Tomadachi</p>
